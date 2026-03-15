@@ -3,7 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { BlogPost, PostsByYear, TagCount } from '../types/blog';
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+const postsDirectory = path.join(process.cwd(), 'src', 'posts');
 
 export function getAllPosts(): BlogPost[] {
   // Recursively get all MDX files
@@ -82,10 +82,12 @@ export function getPostsByYear(): PostsByYear {
 }
 
 export function getPostBySlug(
-  year: string,
-  month: string,
-  slug: string,
+  year?: string,
+  month?: string,
+  slug?: string,
 ): BlogPost | null {
+  if (!year || !month || !slug) return null;
+
   const filePath = path.join(postsDirectory, year, month, `${slug}.mdx`);
 
   try {
@@ -104,8 +106,9 @@ export function getPostBySlug(
       month,
     };
   } catch (error) {
-    const errorMessage = `Error reading post at ${filePath}: ${error instanceof Error ? error.message : String(error)}`;
-    console.error(errorMessage);
+    console.error(
+      `Error reading post at ${filePath}: ${error instanceof Error ? error.message : String(error)}`,
+    );
     return null;
   }
 }
