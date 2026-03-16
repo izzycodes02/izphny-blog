@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { PostsByYear, TagCount } from '../types/blog';
+import Image from 'next/image';
 
 interface SidebarProps {
   postsByYear: PostsByYear;
@@ -34,10 +35,10 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
   const topTags = tags.slice(0, 5);
 
   return (
-    <aside className="w-64 h-screen sticky top-0 p-6 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+    <aside className="w-44 h-screen sticky top-0 p-6  flex flex-col flex-shrink-0">
       {/* Blog Logo and Title */}
-      <div className="mb-8">
-        <div className="text-2xl mb-2">📝</div>
+      <div className="flex items-center gap-3 mb-8 flex-col">
+          <Image src="/logo.png" alt="Blog Logo" width={100} height={100} />
         <Link
           href="/"
           className="text-xl font-bold hover:text-gray-600 dark:hover:text-gray-300"

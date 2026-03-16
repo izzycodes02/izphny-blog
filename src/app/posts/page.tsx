@@ -9,7 +9,7 @@ export default function PostsPage() {
   const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
 
   return (
-    <div className="max-w-3xl">
+    <div className="w-full p-3">
       <h1 className="text-3xl font-bold mb-6">All Posts</h1>
 
       {years.map((year) => (

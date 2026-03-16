@@ -46,6 +46,8 @@ export function getAllPosts(): BlogPost[] {
       tags: data.tags || [],
       excerpt: data.excerpt || '',
       image: data.image,
+      moodImage: data.moodImage, // Add this
+      moodDescription: data.moodDescription,
       content,
       year,
       month,
@@ -101,6 +103,8 @@ export function getPostBySlug(
       tags: data.tags || [],
       excerpt: data.excerpt || '',
       image: data.image,
+      moodImage: data.moodImage, // Add this
+      moodDescription: data.moodDescription,
       content,
       year,
       month,

@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'DarkerGrotesque';
+    src: url(https://humantooth.neocities.org/fonts/DarkerGrotesque-Regular.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243493'), auto;
+}
+
+a, a:hover, button, button:hover {
+    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243490'), auto;
+}
+
 body {
-    @apply bg-gray-100 text-red-900;
+    font-family: 'DarkerGrotesque', sans-serif;
+    @apply flex justify-center items-center h-screen text-sm ;
+   
 }

@@ -7,7 +7,7 @@ export default function Home() {
   const latestPosts = posts.slice(0, 5); // Show 5 latest posts
 
   return (
-    <div className="max-w-3xl">
+    <div className="w-full">
       <h1 className="text-3xl font-bold mb-6">Welcome to iz.phny blog</h1>
 
       <p className="text-gray-600 dark:text-gray-400 mb-8">

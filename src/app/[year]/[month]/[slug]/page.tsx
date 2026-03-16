@@ -10,7 +10,7 @@ import type { MDXComponents } from 'mdx/types';
 const components: MDXComponents = {
   // Custom image component with Next.js Image optimization
   img: (props) => (
-    <div className="my-8">
+    <span className="block my-8">
       <Image
         src={props.src || ''}
         alt={props.alt || ''}
@@ -20,11 +20,11 @@ const components: MDXComponents = {
         sizes="(max-width: 768px) 100vw, 800px"
       />
       {props.alt && (
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
+        <span className="block text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
           {props.alt}
-        </p>
+        </span>
       )}
-    </div>
+    </span>
   ),
 
   // Custom blockquote styling
@@ -54,7 +54,7 @@ const components: MDXComponents = {
 
   h2: (props) => (
     <h2
-      className="text-2xl font-semibold mt-8 mb-4"
+      className="text-xl font-semibold mt-8 mb-4"
       id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')}
       {...props}
     />
@@ -62,7 +62,7 @@ const components: MDXComponents = {
 
   h3: (props) => (
     <h3
-      className="text-xl font-medium mt-6 mb-3"
+      className="text-lg font-medium mt-6 mb-3"
       id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')}
       {...props}
     />
@@ -134,7 +134,7 @@ export default async function PostPage({ params }: PostPageProps) {
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   return (
-    <article className="max-w-3xl mx-auto">
+    <div className="w-full p-3">
       {/* Navigation back to posts */}
       <div className="mb-8">
         <Link
@@ -147,26 +147,30 @@ export default async function PostPage({ params }: PostPageProps) {
 
       {/* Post Header */}
       <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+        {/* <h1 className="text-4xl font-bold mb-4">{post.title}</h1> */}
 
-        <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400 mb-4">
+        <div className="flex items-center gap-4 text-gray-600  mb-4 justify-between w-full">
+          {post.moodImage && post.moodDescription && (
+            <div
+              className="flex bg-slate-50 border border-gray-200 rounded-sm shadow-sm p-1 items-center gap-2 hover:shadow"
+              title="my mood"
+            >
+              <Image
+                src={post.moodImage}
+                alt={post.moodDescription}
+                width={16}
+                height={16}
+                className="w-4 h-4"
+              />
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                {post.moodDescription}
+              </p>
+            </div>
+          )}
+
           <time dateTime={post.date}>
-            {format(new Date(post.date), 'MMMM d, yyyy')}
+            {format(new Date(post.date), 'd / MMM / yyyy')}
           </time>
-
-          <span>•</span>
-
-          <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <Link
-                key={tag}
-                href={`/posts/filter?tag=${encodeURIComponent(tag)}`}
-                className="text-sm bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
-              >
-                #{tag}
-              </Link>
-            ))}
-          </div>
         </div>
 
         {/* Featured Image */}
@@ -190,8 +194,23 @@ export default async function PostPage({ params }: PostPageProps) {
         <MDXRemote source={post.content} components={components} />
       </div>
 
+      {/* show the tags here as links */}
+      <div>
+        <div className="flex flex-wrap gap-2 border-y py-1 pb-2 border-gray-200">
+          {post.tags.map((tag) => (
+            <Link
+              key={tag}
+              href={`/posts/filter?tag=${encodeURIComponent(tag)}`}
+              className="text-sm hover:text-purple-600 hover:underline text-gray-600 dark:text-gray-400"
+            >
+              #{tag}
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Post Footer with Navigation */}
-      <footer className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
+      {/* <footer className=" pt-8">
         <div className="flex justify-between items-center">
           {prevPost ? (
             <Link
@@ -225,8 +244,8 @@ export default async function PostPage({ params }: PostPageProps) {
             <div /> // Empty div for spacing
           )}
         </div>
-      </footer>
-    </article>
+      </footer> */}
+    </div>
   );
 }
 

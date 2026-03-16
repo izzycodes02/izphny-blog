@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
   experimental: {
     mdxRs: true,
   },
+  images: {
+    domains: ['64.media.tumblr.com'],
+  },
 };
 
 export default withMDX(nextConfig);

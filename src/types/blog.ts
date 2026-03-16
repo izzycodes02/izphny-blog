@@ -2,6 +2,8 @@ export interface BlogPost {
   slug: string;
   title: string;
   date: string;
+  moodImage?: string;
+  moodDescription?: string;
   tags: string[];
   excerpt: string;
   image?: string;
