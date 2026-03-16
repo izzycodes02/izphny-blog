@@ -35,16 +35,50 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
   const topTags = tags.slice(0, 5);
 
   return (
-    <aside className="w-44 h-screen sticky top-0 p-6  flex flex-col flex-shrink-0">
+    <aside className="w-44 h-screen sticky top-0 p-3 pt-8  flex flex-col flex-shrink-0">
       {/* Blog Logo and Title */}
-      <div className="flex items-center gap-3 mb-8 flex-col">
-          <Image src="/logo.png" alt="Blog Logo" width={100} height={100} />
+      <div className="flex items-center mb-2 flex-col border border-gray-200 p-1">
+        <Image
+          src="/profile4.jpg"
+          alt="Blog Logo"
+          width={100}
+          height={100}
+          className="w-full rounded-sm"
+        />
         <Link
           href="/"
           className="text-xl font-bold hover:text-gray-600 dark:hover:text-gray-300"
         >
-          iz.phny blog
+          @iz.phny
         </Link>
+      </div>
+
+      {/* Blinkies and stamps */}
+      <div className="w-full flex flex-col gap-1 mb-6">
+        <Image
+          src="https://64.media.tumblr.com/b3e761a71a9cf401fd48d9fb99a5cff1/0dc7e6c6a1b73906-fa/s2048x3072/735629068ec2bfd77342c2850d2ff3c836c7e96b.gif"
+          alt="Stamp 1"
+          width={50}
+          height={50}
+          className="w-full"
+        />
+        {/* stamps */}
+        <div className="flex gap-1 w-full">
+          <Image
+            src="https://64.media.tumblr.com/ba2fec3b5e36fe8ef596ff08f80a3217/0f3ad1aff0d9e5ba-46/s100x200/667b2c4f56007106023fe8bf2bd0419c50e1d17a.gif"
+            alt="Stamp 1"
+            width={50}
+            height={50}
+            className="w-full"
+          />
+          <Image
+            src="https://64.media.tumblr.com/e97842f9688ba07f667b0b8d5740c571/dd851ed67dd48774-71/s100x200/1569846c3292b2423ca7795dd2663e8390694f8e.gif"
+            alt="Stamp 1"
+            width={50}
+            height={50}
+            className="w-full"
+          />
+        </div>
       </div>
 
       {/* Navigation */}
@@ -53,7 +87,7 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
           <li>
             <Link
               href="/"
-              className="block py-1 hover:text-gray-600 dark:hover:text-gray-300"
+              className="block py-1 hover:text-gray-600 hover:underline"
             >
               Home
             </Link>
@@ -61,7 +95,7 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
           <li>
             <Link
               href="/posts"
-              className="block py-1 hover:text-gray-600 dark:hover:text-gray-300"
+              className="block py-1 hover:text-gray-600 hover:underline"
             >
               Posts
             </Link>
@@ -111,10 +145,10 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
                       .map(([month, posts]) => (
                         <li key={`${year}-${month}`}>
                           <Link
-                            href={`/posts/filter?year=${year}&month=${month}`}
-                            className="block py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                            href={`/posts?year=${year}&month=${month}`}
+                            className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                           >
-                            {month} ({posts.length})
+                            {month} [{posts.length}]
                           </Link>
                         </li>
                       ))}
@@ -137,12 +171,12 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
             </button>
 
             {openTags && (
-              <ul className="space-y-1">
+              <ul className="ml-4 space-y-1">
                 {topTags.map(({ tag, count }) => (
                   <li key={tag}>
                     <Link
-                      href={`/posts/filter?tag=${encodeURIComponent(tag)}`}
-                      className="block py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                      href={`/posts?tag=${encodeURIComponent(tag)}`}
+                      className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                     >
                       #{tag} ({count})
                     </Link>

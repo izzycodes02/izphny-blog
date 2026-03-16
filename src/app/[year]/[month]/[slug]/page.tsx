@@ -20,7 +20,7 @@ const components: MDXComponents = {
         sizes="(max-width: 768px) 100vw, 800px"
       />
       {props.alt && (
-        <span className="block text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
+        <span className="block text-gray-500 dark:text-gray-400 mt-2 text-center">
           {props.alt}
         </span>
       )}
@@ -124,14 +124,6 @@ export default async function PostPage({ params }: PostPageProps) {
   const post = getPostBySlug(year, month, slug);
   if (!post) notFound();
 
-  const allPosts = getAllPosts();
-  const currentIndex = allPosts.findIndex(
-    (p) => p.year === year && p.month === month && p.slug === slug,
-  );
-
-  const prevPost =
-    currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
-  const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
   return (
     <div className="w-full p-3">
@@ -139,22 +131,26 @@ export default async function PostPage({ params }: PostPageProps) {
       <div className="mb-8">
         <Link
           href="/posts"
-          className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+          className="text-blue-600 dark:text-blue-400 hover:underline"
         >
           ← Back to all posts
         </Link>
       </div>
 
       {/* Post Header */}
-      <header className="mb-8">
+      <header>
         {/* <h1 className="text-4xl font-bold mb-4">{post.title}</h1> */}
 
-        <div className="flex items-center gap-4 text-gray-600  mb-4 justify-between w-full">
+        <div className="flex items-center gap-4 text-gray-600  mb-2 justify-between w-full">
           {post.moodImage && post.moodDescription && (
             <div
-              className="flex bg-slate-50 border border-gray-200 rounded-sm shadow-sm p-1 items-center gap-2 hover:shadow"
+              className="flex  items-center gap-1 "
               title="my mood"
             >
+              <p>Mood:</p>
+              <p className=" text-gray-500 dark:text-gray-400 text-center">
+                {post.moodDescription}
+              </p>
               <Image
                 src={post.moodImage}
                 alt={post.moodDescription}
@@ -162,9 +158,6 @@ export default async function PostPage({ params }: PostPageProps) {
                 height={16}
                 className="w-4 h-4"
               />
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-                {post.moodDescription}
-              </p>
             </div>
           )}
 
@@ -175,13 +168,13 @@ export default async function PostPage({ params }: PostPageProps) {
 
         {/* Featured Image */}
         {post.image && (
-          <div className="my-8">
+          <div className="my-4">
             <Image
               src={post.image}
               alt={post.title}
               width={1200}
               height={600}
-              className="rounded-lg w-full h-auto object-cover"
+              className="rounded w-full h-auto object-cover"
               priority
               sizes="(max-width: 768px) 100vw, 1200px"
             />
@@ -196,12 +189,12 @@ export default async function PostPage({ params }: PostPageProps) {
 
       {/* show the tags here as links */}
       <div>
-        <div className="flex flex-wrap gap-2 border-y py-1 pb-2 border-gray-200">
+        <div className="flex flex-wrap gap-2 border-y py-2 border-gray-200">
           {post.tags.map((tag) => (
             <Link
               key={tag}
               href={`/posts/filter?tag=${encodeURIComponent(tag)}`}
-              className="text-sm hover:text-purple-600 hover:underline text-gray-600 dark:text-gray-400"
+              className=" hover:text-purple-600 hover:underline text-gray-600 dark:text-gray-400"
             >
               #{tag}
             </Link>

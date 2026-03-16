@@ -3,22 +3,21 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'DarkerGrotesque';
-    src: url(https://humantooth.neocities.org/fonts/DarkerGrotesque-Regular.woff) format('woff');
+    font-family: 'Phlatt-Grotesk';
+    src: url(https://humantooth.neocities.org/fonts/Phlatt-Grotesk.woff) format('woff');
     font-weight: normal;
-    font-style: normal;
-}
+    font-style: normal;  } 
 
 * {
     cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243493'), auto;
 }
 
 a, a:hover, button, button:hover {
-    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243490'), auto;
+    cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243490'), auto !important;
 }
 
 body {
-    font-family: 'DarkerGrotesque', sans-serif;
-    @apply flex justify-center items-center h-screen text-sm ;
+    font-family: 'Phlatt-Grotesk', sans-serif;
+    @apply flex justify-center items-center h-screen text-xs;
    
 }

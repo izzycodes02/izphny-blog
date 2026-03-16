@@ -5,7 +5,7 @@ import { BlogPost, PostsByYear, TagCount } from '../types/blog';
 
 const postsDirectory = path.join(process.cwd(), 'src', 'posts');
 
-export function getAllPosts(): BlogPost[] {
+export  function getAllPosts(): BlogPost[] {
   // Recursively get all MDX files
   const getMDXFiles = (dir: string): string[] => {
     const files = fs.readdirSync(dir, { withFileTypes: true });
@@ -115,6 +115,12 @@ export function getPostBySlug(
     );
     return null;
   }
+}
+
+// create a getPostsByTag function that returns an array of posts that have the specified tag#
+export function getPostsByTag(tag: string): BlogPost[] {
+  const posts = getAllPosts();
+  return posts.filter((post) => post.tags.includes(tag));
 }
 
 export function getAllTags(): TagCount[] {
