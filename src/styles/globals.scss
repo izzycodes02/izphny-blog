@@ -2,22 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
+// how to make custom colours to use everywhere in the app without using css variables or tailwind config?
+
+:root {
+    --main-colour: #9c7c6b;
+    --main-colour2: #723611;
+    --main-colour3: #e4d2c8;
+}
+
 @font-face {
     font-family: 'Phlatt-Grotesk';
     src: url(https://humantooth.neocities.org/fonts/Phlatt-Grotesk.woff) format('woff');
     font-weight: normal;
-    font-style: normal;  } 
+    font-style: normal;
+}
 
 * {
     cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243493'), auto;
 }
 
-a, a:hover, button, button:hover {
+a,
+a:hover,
+button,
+button:hover {
     cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243490'), auto !important;
 }
 
 body {
     font-family: 'Phlatt-Grotesk', sans-serif;
     @apply flex justify-center items-center h-screen text-xs;
+
+}
+
+.mainColourText {
+    color: var(--main-colour);
+}
+
+.bgfaint:hover {
+    background-color: var(--main-colour3);
+}
+
+.mainColourText2 {
+    color: var(--main-colour2);
+}
+
+.hover\:mainColourText2:hover {
+    color: var(--main-colour2);
+}
+
+.hover\:mainColourText:hover {
+    color: var(--main-colour);
+}
+
+.group:hover .group-hover\:mainColourText {
+    color: var(--main-colour);
+}
+
+main {
    
+    // fix the code above
+    // The above code is using Tailwind CSS's arbitrary variants to style the scrollbar. However, the syntax is incorrect. Here's the corrected version:
+    @apply overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[var(--main-colour3)] [&::-webkit-scrollbar-thumb]:bg-[var(--main-colour)] [&::-webkit-scrollbar-thumb:hover]:bg-[var(--main-colour2)];
 }

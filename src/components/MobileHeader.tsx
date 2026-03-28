@@ -41,6 +41,12 @@ export default function MobileHeader({ postsByYear, tags }: MobileHeaderProps) {
         <div className="w-10" /> {/* Spacer for alignment */}
       </header>
 
+      {isMenuOpen && (
+
+        <></>
+       
+      )}
+
       <Sidebar
         postsByYear={postsByYear}
         tags={tags}

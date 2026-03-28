@@ -8,15 +8,9 @@ export default function Home() {
 
   return (
     <div className="w-full">
-      {/* <h1 className="text-3xl font-bold mb-6">Welcome to iz.phny blog</h1>
-
-      <p className="text-gray-600 dark:text-gray-400 mb-8">
-        Thoughts about dogs, life, and everything in between.
-      </p> */}
-
       <section>
         <div className="flex justify-between items-center mb-3">
-          <h2 className="text-2xl font-semibold">Latest Posts</h2>
+          <h2 className="text-2xl font-semibold font-serif">Latest Posts</h2>
           <Link
             href="/posts"
             className="text-blue-600 dark:text-blue-400 hover:underline"
@@ -31,11 +25,12 @@ export default function Home() {
               key={`${post.year}/${post.month}/${post.slug}`}
               className="border-b border-gray-200 dark:border-gray-800 pb-6"
             >
+              {/* Post title and excerpt - clickable to full post */}
               <Link
                 href={`/${post.year}/${post.month}/${post.slug}`}
                 className="block group"
               >
-                <h3 className="text-xl font-medium group-hover:text-gray-600 dark:group-hover:text-gray-300 mb-2">
+                <h3 className="text-xl font-medium group-hover:mainColourText group-hover:underline mb-2">
                   {post.title}
                 </h3>
 
@@ -48,20 +43,22 @@ export default function Home() {
                     {post.excerpt}
                   </p>
                 )}
-
-                {post.tags && post.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
               </Link>
+
+              {/* Tags section - separate from the main post link */}
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`/posts?tag=${encodeURIComponent(tag)}`}
+                      className="text-xs bg-gray-100  px-2 py-1 rounded bgfaint hover:mainColourText2  hover:underline  transition-colors duration-200"
+                    >
+                      #{tag}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </article>
           ))}
         </div>

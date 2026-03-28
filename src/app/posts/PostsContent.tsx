@@ -182,7 +182,7 @@ export default function PostsContent() {
 
   return (
     <div className="w-full p-3">
-      <h1 className="text-3xl font-bold mb-6">All Posts</h1>
+      <h1 className="text-3xl font-bold mb-6 font-serif">All Posts</h1>
 
       {/* Filters Section - keep as is */}
       <div className="mb-8 p-4 bg-gray-50 dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800">
@@ -323,7 +323,7 @@ export default function PostsContent() {
       {years.length > 0 ? (
         years.map((year) => (
           <section key={year} className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-800 pb-2">
+            <h2 className="text-2xl font-semibold mb-4 border-b border-gray-200 dark:border-gray-800 pb-2 font-serif">
               {year}
             </h2>
 

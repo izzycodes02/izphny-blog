@@ -46,7 +46,7 @@ export default function Sidebar({
       {/* Blog Logo and Title */}
       <div className="flex items-center mb-2 flex-col border border-gray-200 p-1">
         <Image
-          src="/profile4.jpg"
+          src="/profile.jpg"
           alt="Blog Logo"
           width={100}
           height={100}
@@ -54,17 +54,17 @@ export default function Sidebar({
         />
         <Link
           href="/"
-          className="text-xl font-bold hover:text-gray-600 dark:hover:text-gray-300"
+          className="text-lg mt-1 font-bold hover:text-gray-600 dark:hover:text-gray-300 font-serif"
           onClick={onClose}
         >
-          @iz.phny
+          @izphny
         </Link>
       </div>
 
       {/* Blinkies and stamps */}
       <div className="w-full flex flex-col gap-1 mb-6">
         <Image
-          src="https://64.media.tumblr.com/b3e761a71a9cf401fd48d9fb99a5cff1/0dc7e6c6a1b73906-fa/s2048x3072/735629068ec2bfd77342c2850d2ff3c836c7e96b.gif"
+          src="https://64.media.tumblr.com/e6e5560fc6219fa87f39dd73e902a886/51540b795fb01883-da/s250x400/6d6106f9bc6566229e6062f5f63dd17fed643113.gif"
           alt="Stamp 1"
           width={50}
           height={50}
@@ -73,14 +73,14 @@ export default function Sidebar({
         {/* stamps */}
         <div className="flex gap-1 w-full">
           <Image
-            src="https://64.media.tumblr.com/ba2fec3b5e36fe8ef596ff08f80a3217/0f3ad1aff0d9e5ba-46/s100x200/667b2c4f56007106023fe8bf2bd0419c50e1d17a.gif"
+            src="https://64.media.tumblr.com/948f69cabe73d6465a066892eeb6a21e/efa59677884e5c34-19/s100x200/7affacff2c7053a07c0bcd080e805c59ef35bd2e.pnj"
             alt="Stamp 1"
             width={50}
             height={50}
             className="w-full"
           />
           <Image
-            src="https://64.media.tumblr.com/e97842f9688ba07f667b0b8d5740c571/dd851ed67dd48774-71/s100x200/1569846c3292b2423ca7795dd2663e8390694f8e.gif"
+            src="https://64.media.tumblr.com/87c74466c2379ca3d737283381e7ebaf/7c5f710738a8057a-18/s100x200/13bc111af4ad48f23acc082035fb308eb500fda4.gif"
             alt="Stamp 1"
             width={50}
             height={50}
@@ -212,7 +212,7 @@ export default function Sidebar({
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden md:block w-44 h-screen sticky top-0 p-3 pt-8 flex flex-col flex-shrink-0">
+      <aside className=" hidden md:flex w-44 h-screen sticky top-0 pb-3 pl-6 pr-0 pt-8 flex flex-col flex-shrink-0">
         {sidebarContent}
       </aside>
 
