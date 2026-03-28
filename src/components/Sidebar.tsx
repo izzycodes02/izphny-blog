@@ -8,9 +8,16 @@ import Image from 'next/image';
 interface SidebarProps {
   postsByYear: PostsByYear;
   tags: TagCount[];
+  isMobileMenuOpen?: boolean;
+  onClose?: () => void;
 }
 
-export default function Sidebar({ postsByYear, tags }: SidebarProps) {
+export default function Sidebar({
+  postsByYear,
+  tags,
+  isMobileMenuOpen,
+  onClose,
+}: SidebarProps) {
   const [openYears, setOpenYears] = useState<string[]>([]);
   const [openTags, setOpenTags] = useState(false);
 
@@ -34,8 +41,8 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
   // Get top 5 tags
   const topTags = tags.slice(0, 5);
 
-  return (
-    <aside className="w-44 h-screen sticky top-0 p-3 pt-8  flex flex-col flex-shrink-0">
+  const sidebarContent = (
+    <>
       {/* Blog Logo and Title */}
       <div className="flex items-center mb-2 flex-col border border-gray-200 p-1">
         <Image
@@ -48,6 +55,7 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
         <Link
           href="/"
           className="text-xl font-bold hover:text-gray-600 dark:hover:text-gray-300"
+          onClick={onClose}
         >
           @iz.phny
         </Link>
@@ -88,6 +96,7 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
             <Link
               href="/"
               className="block py-1 hover:text-gray-600 hover:underline"
+              onClick={onClose}
             >
               Home
             </Link>
@@ -96,6 +105,7 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
             <Link
               href="/posts"
               className="block py-1 hover:text-gray-600 hover:underline"
+              onClick={onClose}
             >
               Posts
             </Link>
@@ -147,6 +157,7 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
                           <Link
                             href={`/posts?year=${year}&month=${month}`}
                             className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                            onClick={onClose}
                           >
                             {month} [{posts.length}]
                           </Link>
@@ -177,6 +188,7 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
                     <Link
                       href={`/posts?tag=${encodeURIComponent(tag)}`}
                       className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                      onClick={onClose}
                     >
                       #{tag} ({count})
                     </Link>
@@ -192,6 +204,53 @@ export default function Sidebar({ postsByYear, tags }: SidebarProps) {
       <div className="mt-auto pt-6 text-xs text-gray-500">
         <p>© {new Date().getFullYear()} iz.phny</p>
       </div>
-    </aside>
+    </>
+  );
+
+  // For desktop, render as normal sidebar
+  // For mobile, render as full-screen overlay menu
+  return (
+    <>
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:block w-44 h-screen sticky top-0 p-3 pt-8 flex flex-col flex-shrink-0">
+        {sidebarContent}
+      </aside>
+
+      {/* Mobile Full-Screen Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black bg-opacity-50"
+            onClick={onClose}
+          />
+
+          {/* Menu Panel */}
+          <aside className="absolute inset-0 bg-white overflow-y-auto p-3 pt-8 flex flex-col">
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 p-2 text-gray-600 hover:text-gray-900"
+              aria-label="Close menu"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            {sidebarContent}
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

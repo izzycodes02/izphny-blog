@@ -154,9 +154,9 @@ export default async function PostPage({ params }: PostPageProps) {
               <Image
                 src={post.moodImage}
                 alt={post.moodDescription}
-                width={16}
-                height={16}
-                className="w-4 h-4"
+                width={12}
+                height={12}
+                className="w-3 h-3"
               />
             </div>
           )}
@@ -193,7 +193,7 @@ export default async function PostPage({ params }: PostPageProps) {
           {post.tags.map((tag) => (
             <Link
               key={tag}
-              href={`/posts/filter?tag=${encodeURIComponent(tag)}`}
+              href={`/posts?tag=${encodeURIComponent(tag)}`}
               className=" hover:text-purple-600 hover:underline text-gray-600 dark:text-gray-400"
             >
               #{tag}
