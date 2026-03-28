@@ -8,14 +8,22 @@ export default function Home() {
 
   return (
     <div className="w-full">
-      <h1 className="text-3xl font-bold mb-6">Welcome to iz.phny blog</h1>
+      {/* <h1 className="text-3xl font-bold mb-6">Welcome to iz.phny blog</h1>
 
       <p className="text-gray-600 dark:text-gray-400 mb-8">
         Thoughts about dogs, life, and everything in between.
-      </p>
+      </p> */}
 
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Latest Posts</h2>
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-2xl font-semibold">Latest Posts</h2>
+          <Link
+            href="/posts"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            View all posts →
+          </Link>
+        </div>
 
         <div className="space-y-6">
           {latestPosts.map((post) => (
@@ -56,15 +64,6 @@ export default function Home() {
               </Link>
             </article>
           ))}
-        </div>
-
-        <div className="mt-8">
-          <Link
-            href="/posts"
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            View all posts →
-          </Link>
         </div>
       </section>
     </div>
