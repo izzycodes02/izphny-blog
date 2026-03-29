@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import type { MDXComponents } from 'mdx/types';
+import { IconExternalLink, IconMapPin, IconMovie, IconUser } from '@tabler/icons-react';
 
 interface MyLinkProps {
   src: string;
   children?: React.ReactNode;
+  type?: string;
 }
 
 interface MyImagesProps {
@@ -23,17 +25,67 @@ interface EmojiProps {
 
 export const mdxComponents: MDXComponents = {
   // Custom link component
-  MyLink: ({ src, children }: MyLinkProps) => {
+  MyLink: ({ src, children, type }: MyLinkProps) => {
     return (
-      <a
-        href={src}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`inline-flex items-center gap-1 mainColourText2 hover:mainColourText
-        hover:underline font-medium transition-colors duration-200`}
-      >
-        ▸ {children} ◂
-      </a>
+      <>
+        {type === 'location' ? (
+          <a
+            href={src}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="See about this place!"
+            className={`inline-flex text-red-400 hover:text-red-600
+      hover:underline font-medium transition-colors duration-200`}
+          >
+            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
+              <IconMapPin className="w-[10px] h-[10px] MyPointerCursor" />
+              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
+            </span>
+          </a>
+        ) : type === 'movie' ? (
+          <a
+            href={src}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="See about this movie!"
+            className={`inline-flex text-blue-400 hover:text-blue-600
+    hover:underline font-medium transition-colors duration-200`}
+          >
+            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
+              <IconMovie className="w-[10px] h-[10px] MyPointerCursor" />
+              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
+            </span>
+          </a>
+        ) : type === 'person' ? (
+          <a
+            href={src}
+            target="_blank"
+            title="See about this person!"
+            rel="noopener noreferrer"
+            className={`inline-flex text-violet-400 hover:text-violet-600
+    hover:underline font-medium transition-colors duration-200 `}
+          >
+            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
+              <IconUser className="w-[10px] h-[10px] MyPointerCursor" />
+              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
+            </span>
+          </a>
+        ) : (
+          <a
+            href={src}
+            target="_blank"
+            title="See about this person!"
+            rel="noopener noreferrer"
+            className={`inline-flex text-yellow-700 hover:text-yellow-900
+  hover:underline font-medium transition-colors duration-200 `}
+          >
+            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
+              <IconExternalLink className="w-[10px] h-[10px] MyPointerCursor" />
+              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
+            </span>
+          </a>
+        )}
+      </>
     );
   },
 
@@ -65,6 +117,13 @@ export const mdxComponents: MDXComponents = {
       freezing: '/emoji/freezing.webp',
       princess: '/emoji/princess.webp',
       smilewide: '/emoji/smile-wide.webp',
+      stickingtongue: '/emoji/sticking-tongue.webp',
+      star: '/emoji/star.gif',
+      surprised: '/emoji/surprised.webp',
+      thinking: '/emoji/thinking.webp',
+      wink: '/emoji/wink.webp',
+      hmmm: '/emoji/hmmm.webp',
+      punk: '/emoji/punk.webp',
     };
 
     const makeSmaller = new Set([
@@ -116,17 +175,19 @@ export const mdxComponents: MDXComponents = {
   },
 
   // Optional: Single image with caption
-  'my image': ({ src, alt, caption }: MyImageProps) => (
-    <figure className="my-6">
+  MyImage: ({ src, alt, caption }: MyImageProps) => (
+    <figure className="mt-6 mb-3">
       <Image
         src={src}
         alt={alt || ''}
-        width={800}
-        height={400}
-        className="rounded-lg w-full h-auto"
+        width={1200}
+        height={600}
+        className="rounded w-full h-auto object-cover"
+        priority
+        sizes="(max-width: 768px) 100vw, 1200px"
       />
       {caption && (
-        <figcaption className="text-center text-sm text-gray-500 mt-2">
+        <figcaption className="text-center text-[10px] italic text-gray-500 mt-2">
           {caption}
         </figcaption>
       )}
@@ -194,12 +255,7 @@ export const mdxComponents: MDXComponents = {
   ),
 
   // Paragraphs
-  p: (props) => (
-    <p
-      className="text-gray-700 dark:text-gray-300 leading-6 mb-4 text-justify"
-      {...props}
-    />
-  ),
+  p: (props) => <p className="leading-6 mb-4" {...props} />,
 
   // Lists
   ul: (props) => (
