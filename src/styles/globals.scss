@@ -28,6 +28,13 @@ button:hover {
     cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243490'), auto !important;
 }
 
+@layer base {
+
+    a,
+    button {
+        @apply cursor-my-pointer;
+    } }
+
 body {
     font-family: 'Phlatt-Grotesk', sans-serif;
     @apply flex justify-center items-center h-screen text-xs;
@@ -36,6 +43,14 @@ body {
 
 .mainColourText {
     color: var(--main-colour);
+}
+
+.bg-mainColour {
+    background-color: var(--main-colour);
+}
+
+.bg-faint {
+    background-color: var(--main-colour3);
 }
 
 .bgfaint:hover {
@@ -54,13 +69,12 @@ body {
     color: var(--main-colour);
 }
 
+
+
 .group:hover .group-hover\:mainColourText {
     color: var(--main-colour);
 }
 
 main {
-   
-    // fix the code above
-    // The above code is using Tailwind CSS's arbitrary variants to style the scrollbar. However, the syntax is incorrect. Here's the corrected version:
     @apply overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[var(--main-colour3)] [&::-webkit-scrollbar-thumb]:bg-[var(--main-colour)] [&::-webkit-scrollbar-thumb:hover]:bg-[var(--main-colour2)];
 }

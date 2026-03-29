@@ -4,7 +4,8 @@ import { format } from 'date-fns';
 
 export default function Home() {
   const posts = getAllPosts();
-  const latestPosts = posts.slice(0, 5); // Show 5 latest posts
+  // show only 2 now
+  const latestPosts = posts.slice(0, 2);
 
   return (
     <div className="w-full">
@@ -19,11 +20,12 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="space-y-6">
+        {/* I want it in 2 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {latestPosts.map((post) => (
             <article
               key={`${post.year}/${post.month}/${post.slug}`}
-              className="border-b border-gray-200 dark:border-gray-800 pb-6"
+              className="border border-gray-200 p-2 dark:border-gray-800"
             >
               {/* Post title and excerpt - clickable to full post */}
               <Link
@@ -31,7 +33,7 @@ export default function Home() {
                 className="block group"
               >
                 <h3 className="text-xl font-medium group-hover:mainColourText group-hover:underline mb-2">
-                  {post.title}
+                  ✷ {post.title}
                 </h3>
 
                 <time className="text-sm text-gray-500 dark:text-gray-400 block mb-2">

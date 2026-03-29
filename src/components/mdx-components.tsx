@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import type { MDXComponents } from 'mdx/types';
-import { IconWorld } from '@tabler/icons-react';
 
 interface MyLinkProps {
   src: string;
@@ -217,7 +216,7 @@ export const mdxComponents: MDXComponents = {
     />
   ),
 
-  li: (props) => <li className="leading-relaxed " {...props} />,
+  li: (props) => <li className="leading-6 " {...props} />,
 
   // Links
   a: (props) => (

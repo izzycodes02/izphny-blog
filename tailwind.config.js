@@ -9,7 +9,12 @@ module.exports = {
     './src/styles/**/*.{scss,css}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      cursor: {
+        'my-pointer':
+          "url('http://www.rw-designer.com/cursor-extern.php?id=243490'), auto",
+      },
+    },
   },
   plugins: [],
 };

@@ -34,7 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} bg-[#35291d]`}
       >
         <div className="flex justify-center min-h-screen bg-white shadow-lg shadow-black">
-          <div className="flex flex-col md:flex-row md:w-[720px] h-full md:h-dvh w-full">
+          <div className="flex flex-col md:flex-row md:w-[720px] h-dvh w-full">
             <div className="sm:hidden">
               <MobileHeader postsByYear={postsByYear} tags={tags} />
             </div>

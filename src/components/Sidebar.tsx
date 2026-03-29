@@ -20,6 +20,7 @@ export default function Sidebar({
 }: SidebarProps) {
   const [openYears, setOpenYears] = useState<string[]>([]);
   const [openTags, setOpenTags] = useState(false);
+  const [openPCModules, setOpenPCModules] = useState(false);
 
   const toggleYear = (year: string) => {
     setOpenYears((prev) =>
@@ -40,6 +41,10 @@ export default function Sidebar({
 
   // Get top 5 tags
   const topTags = tags.slice(0, 5);
+
+  const pcModules = [
+    { name: 'Module 1', link: '/personal-curriculum/module-one' },
+  ];
 
   const sidebarContent = (
     <>
@@ -64,7 +69,7 @@ export default function Sidebar({
       {/* Blinkies and stamps */}
       <div className="w-full flex flex-col gap-1 mb-6">
         <Image
-          src="https://64.media.tumblr.com/e6e5560fc6219fa87f39dd73e902a886/51540b795fb01883-da/s250x400/6d6106f9bc6566229e6062f5f63dd17fed643113.gif"
+          src="https://64.media.tumblr.com/728288fc5eca98653320359b1b37bea2/a28ae0e85c39e0d8-d0/s250x400/59b21c3d71dfe5b49442638fd558c49604f38f7a.gif"
           alt="Stamp 1"
           width={50}
           height={50}
@@ -73,7 +78,7 @@ export default function Sidebar({
         {/* stamps */}
         <div className="flex gap-1 w-full">
           <Image
-            src="https://64.media.tumblr.com/948f69cabe73d6465a066892eeb6a21e/efa59677884e5c34-19/s100x200/7affacff2c7053a07c0bcd080e805c59ef35bd2e.pnj"
+            src="https://64.media.tumblr.com/1424058e488e3d5c1b55dc8380c71dba/7c5f710738a8057a-e6/s100x200/91bfb061bfd97fb3dec994c432532347eee85f07.gif"
             alt="Stamp 1"
             width={50}
             height={50}
@@ -120,9 +125,9 @@ export default function Sidebar({
               <li key={year}>
                 <button
                   onClick={() => toggleYear(year)}
-                  className="flex items-center justify-between w-full py-1 text-left hover:text-gray-600 dark:hover:text-gray-300"
+                  className="flex items-center justify-between w-full py-1 text-left hover:text-gray-600 group"
                 >
-                  <span>
+                  <span className="group-hover:underline">
                     {year} [{getYearTotal(year)}]
                   </span>
                   <span>{openYears.includes(year) ? '▼' : '▶'}</span>
@@ -156,7 +161,7 @@ export default function Sidebar({
                         <li key={`${year}-${month}`}>
                           <Link
                             href={`/posts?year=${year}&month=${month}`}
-                            className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                            className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:underline"
                             onClick={onClose}
                           >
                             {month} [{posts.length}]
@@ -187,7 +192,7 @@ export default function Sidebar({
                   <li key={tag}>
                     <Link
                       href={`/posts?tag=${encodeURIComponent(tag)}`}
-                      className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+                      className="block py-1 text-gray-600 hover:text-gray-900 hover:underline"
                       onClick={onClose}
                     >
                       #{tag} ({count})
@@ -198,11 +203,47 @@ export default function Sidebar({
             )}
           </div>
         )}
+
+        {/* Personal Curriculum Modules */}
+        <div className="mt-6">
+          <button
+            onClick={() => setOpenPCModules(!openPCModules)}
+            className="flex items-center justify-between w-full font-semibold mb-2"
+          >
+            <span>Personal Curriculum</span>
+            <span>{openPCModules ? '▼' : '▶'}</span>
+          </button>
+
+          {openPCModules && (
+            <ul className="space-y-1 ml-4">
+              <li>
+                <Link
+                  href="/personal-curriculum"
+                  className="block py-1 text-gray-600  hover:text-gray-900 hover:underline"
+                  onClick={onClose}
+                >
+                  Overview
+                </Link>
+              </li>
+              {pcModules.map((module, index) => (
+                <li key={index}>
+                  <Link
+                    href={module.link}
+                    className="block py-1 text-gray-600  hover:text-gray-900 hover:underline"
+                    onClick={onClose}
+                  >
+                    {module.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </nav>
 
       {/* Optional: Footer */}
       <div className="mt-auto pt-6 text-xs text-gray-500">
-        <p>© {new Date().getFullYear()} iz.phny</p>
+        <p>© {new Date().getFullYear()} izphny</p>
       </div>
     </>
   );
@@ -212,7 +253,7 @@ export default function Sidebar({
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className=" hidden md:flex w-44 h-screen sticky top-0 pb-3 pl-6 pr-0 pt-8 flex flex-col flex-shrink-0">
+      <aside className=" hidden md:flex w-44 h-screen sticky top-0 pb-3 pl-6 pr-0 pt-8 flex-col flex-shrink-0">
         {sidebarContent}
       </aside>
 
