@@ -8,6 +8,14 @@
     --main-colour: #9c7c6b;
     --main-colour2: #723611;
     --main-colour3: #e4d2c8;
+    --button-highlight: #FFFFFF;
+        --button-face: #e4d2c8;
+        --button-shadow: #808080;
+        --window-frame: #0a0a0a;
+    --border-raised-outer: inset -1px -1px var(--window-frame),
+            inset 1px 1px var(--button-highlight);
+        --border-raised-inner: inset -2px -2px var(--button-shadow),
+            inset 2px 2px var(--button-face);
 }
 
 @font-face {
@@ -75,6 +83,49 @@ body {
     color: var(--main-colour);
 }
 
-main {
-    @apply overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[var(--main-colour3)] [&::-webkit-scrollbar-thumb]:bg-[var(--main-colour)] [&::-webkit-scrollbar-thumb:hover]:bg-[var(--main-colour2)];
+// main {
+//     @apply overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[var(--main-colour3)] [&::-webkit-scrollbar-thumb]:bg-[var(--main-colour)] [&::-webkit-scrollbar-thumb:hover]:bg-[var(--main-colour2)];
+// }
+
+/* ===== Scrollbar CSS ===== */
+
+::-webkit-scrollbar {
+    width: 10px;
 }
+
+// ::-webkit-scrollbar:horizontal {
+//     height: 14px;
+// }
+
+::-webkit-scrollbar-corner {
+    background: var(--button-face);
+}
+
+// ::-webkit-scrollbar-track {
+//     background-image: url("/scroll/scrollbar-background.svg");
+
+// }
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--button-face);
+    box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+}
+
+::-webkit-scrollbar-button:horizontal:start:decrement,
+::-webkit-scrollbar-button:horizontal:end:increment,
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment {
+    display: block;
+}
+
+// ::-webkit-scrollbar-button:vertical:start {
+//     height: 17px;
+//     width: 10px;
+//     background-image: url("/scroll/button-up.svg");
+// }
+
+// ::-webkit-scrollbar-button:vertical:end {
+//     height: 17px;
+//     width: 10px;
+//     background-image: url("/scroll/button-down.svg");
+// }
