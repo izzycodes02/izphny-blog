@@ -9,6 +9,15 @@ export default function Home() {
 
   return (
     <div className="w-full">
+      <section className="flex w-full text-center items-center flex-col my-20 mainColourText">
+        <p>i live</p>
+        <p>pray</p>
+        <p>play</p>
+        <p>& work</p>
+      </section>
+
+      <hr className="mb-8" />
+
       <section>
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-2xl font-semibold font-serif">Latest Posts</h2>
@@ -28,17 +37,21 @@ export default function Home() {
               className="border border-gray-200 p-2 dark:border-gray-800"
             >
               {/* Post title and excerpt - clickable to full post */}
+
               <Link
                 href={`/${post.year}/${post.month}/${post.slug}`}
                 className="block group"
               >
-                <h3 className="text-xl font-medium group-hover:mainColourText group-hover:underline mb-2">
-                  ✷ {post.title}
+                <div className="p-1 px-2 pb-[2px] mb-2 myGreyGradient flex items-center text-gray-500 border justify-between font-thin group-hover:myMainColourGradient transition-colors duration-200">
+                  <span> ✷</span>
+                  {format(new Date(post.date), 'dd / MMM / yyyy')}
+                </div>
+
+                <h3 className="text-lg font-semibold group-hover:mainColourText group-hover:underline mb-2">
+                  {post.title}
                 </h3>
 
-                <time className="text-sm text-gray-500 dark:text-gray-400 block mb-2">
-                  {format(new Date(post.date), 'MMMM d, yyyy')}
-                </time>
+                <time className=" text-gray-500 dark:text-gray-400 block mb-2"></time>
 
                 {post.excerpt && (
                   <p className="text-gray-600 dark:text-gray-400 mb-3">
@@ -54,7 +67,7 @@ export default function Home() {
                     <Link
                       key={tag}
                       href={`/posts?tag=${encodeURIComponent(tag)}`}
-                      className="text-xs bg-gray-100  px-2 py-1 rounded bgfaint hover:mainColourText2  hover:underline  transition-colors duration-200"
+                      className=" bg-[#f0f0f0] text-[10px]  px-2 py-1 rounded-sm bgfaint hover:mainColourText2  hover:underline  transition-colors duration-200"
                     >
                       #{tag}
                     </Link>
@@ -65,6 +78,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <hr className="my-8" />
     </div>
   );
 }

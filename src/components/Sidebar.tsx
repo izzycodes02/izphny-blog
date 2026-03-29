@@ -20,6 +20,7 @@ export default function Sidebar({
 }: SidebarProps) {
   const [openYears, setOpenYears] = useState<string[]>([]);
   const [openTags, setOpenTags] = useState(false);
+  const [seeFullYear, setSeeFullYear] = useState(false);
   const [openPCModules, setOpenPCModules] = useState(false);
 
   const toggleYear = (year: string) => {
@@ -119,65 +120,74 @@ export default function Sidebar({
 
         {/* Years Accordion */}
         <div className="mt-6">
-          <h3 className="font-semibold mb-2">Years</h3>
-          <ul className="space-y-1">
-            {sortedYears.map((year) => (
-              <li key={year}>
-                <button
-                  onClick={() => toggleYear(year)}
-                  className="flex items-center justify-between w-full py-1 text-left hover:text-gray-600 group"
-                >
-                  <span className="group-hover:underline">
-                    {year} [{getYearTotal(year)}]
-                  </span>
-                  <span>{openYears.includes(year) ? '▼' : '▶'}</span>
-                </button>
+          <button
+            type="button"
+            onClick={() => setSeeFullYear(!seeFullYear)}
+            className="flex justify-between w-full"
+          >
+            <h3 className="font-semibold mb-2">Years</h3>
+            <span>{seeFullYear ? '▼' : '▶'}</span>
+          </button>
+          {seeFullYear && (
+            <ul className="space-y-1 ml-4">
+              {sortedYears.map((year) => (
+                <li key={year}>
+                  <button
+                    onClick={() => toggleYear(year)}
+                    className="flex items-center justify-between w-full py-1 text-left hover:text-gray-600 group"
+                  >
+                    <span className="group-hover:underline">
+                      {year} [{getYearTotal(year)}]
+                    </span>
+                    <span>{openYears.includes(year) ? '▼' : '▶'}</span>
+                  </button>
 
-                {/* Months Accordion Content */}
-                {openYears.includes(year) && (
-                  <ul className="ml-4 mt-1 space-y-1">
-                    {Object.entries(postsByYear[year])
-                      .sort((a, b) => {
-                        // Sort months in chronological order
-                        const monthOrder = [
-                          'January',
-                          'February',
-                          'March',
-                          'April',
-                          'May',
-                          'June',
-                          'July',
-                          'August',
-                          'September',
-                          'October',
-                          'November',
-                          'December',
-                        ];
-                        return (
-                          monthOrder.indexOf(a[0]) - monthOrder.indexOf(b[0])
-                        );
-                      })
-                      .map(([month, posts]) => (
-                        <li key={`${year}-${month}`}>
-                          <Link
-                            href={`/posts?year=${year}&month=${month}`}
-                            className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:underline"
-                            onClick={onClose}
-                          >
-                            {month} [{posts.length}]
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+                  {/* Months Accordion Content */}
+                  {openYears.includes(year) && (
+                    <ul className="ml-6 mt-1 space-y-1">
+                      {Object.entries(postsByYear[year])
+                        .sort((a, b) => {
+                          // Sort months in chronological order
+                          const monthOrder = [
+                            'January',
+                            'February',
+                            'March',
+                            'April',
+                            'May',
+                            'June',
+                            'July',
+                            'August',
+                            'September',
+                            'October',
+                            'November',
+                            'December',
+                          ];
+                          return (
+                            monthOrder.indexOf(a[0]) - monthOrder.indexOf(b[0])
+                          );
+                        })
+                        .map(([month, posts]) => (
+                          <li key={`${year}-${month}`}>
+                            <Link
+                              href={`/posts?year=${year}&month=${month}`}
+                              className="block py-1 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 hover:underline"
+                              onClick={onClose}
+                            >
+                              {month} [{posts.length}]
+                            </Link>
+                          </li>
+                        ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Tags Accordion */}
         {topTags.length > 0 && (
-          <div className="mt-6">
+          <div className="mt-4">
             <button
               onClick={() => setOpenTags(!openTags)}
               className="flex items-center justify-between w-full font-semibold mb-2"

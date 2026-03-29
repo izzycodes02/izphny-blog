@@ -83,6 +83,7 @@ body {
     color: var(--main-colour);
 }
 
+
 // main {
 //     @apply overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-[var(--main-colour3)] [&::-webkit-scrollbar-thumb]:bg-[var(--main-colour)] [&::-webkit-scrollbar-thumb:hover]:bg-[var(--main-colour2)];
 // }
@@ -129,3 +130,8 @@ body {
 //     width: 10px;
 //     background-image: url("/scroll/button-down.svg");
 // }
+
+.myGreyGradient {
+    background: #f0f0f0;
+        background: linear-gradient(0deg, rgba(240, 240, 240, 1) 0%, rgba(222, 222, 222, 1) 26%, rgba(247, 247, 247, 1) 100%);
+}
