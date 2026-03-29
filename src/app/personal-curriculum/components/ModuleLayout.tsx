@@ -18,14 +18,25 @@ interface ModuleLayoutProps {
     code?: string;
     startDate?: string;
     endDate?: string;
+    status?: 'Not Started' | 'In Progress' | 'Completed';
   };
   overviewInfo: {
     objectives?: string[];
     learningResources?: string[];
+    assignmentDetails?: {
+      weekAAssignmentTitle: string;
+      weekAAssignmentContent: React.ReactNode;
+      weekBAssignmentTitle: string;
+      weekBAssignmentContent: React.ReactNode;
+    };
+    successCriteria?: {
+      title: string;
+      content: React.ReactNode;
+    }
   };
   overviewContent?: React.ReactNode;
   progressContent?: React.ReactNode;
-  weekByWeekContent?: WeekData[]; // Array of weeks instead of hardcoded A/B
+  weekByWeekContent?: WeekData[];
 }
 
 export default function ModuleLayout({
@@ -41,13 +52,6 @@ export default function ModuleLayout({
     'overview' | 'progress' | 'weekbyweek'
   >(weekByWeekContent ? 'overview' : 'overview');
 
-  console.log('ModuleLayout props:', {
-    moduleTitle,
-    moduleDescription,
-    moduleInfo,
-    overviewInfo,
-    hasWeekByWeek: !!weekByWeekContent,
-  });
 
   return (
     <div className="w-full p-3 max-w-4xl mx-auto">
@@ -99,6 +103,16 @@ export default function ModuleLayout({
                   </td>
                 </tr>
               )}
+              {moduleInfo.status && (
+                <tr>
+                  <td className="border border-gray-300 p-2 w-24 font-bold align-top">
+                    Status
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {moduleInfo.status}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -109,11 +123,11 @@ export default function ModuleLayout({
       </header>
 
       {/* Tabs */}
-      <div className="mb-6 bg-faint p-1">
-        <div className="flex border-gray-200 gap-2">
+      <div className="mb-6 bg-faint p-1 rounded-sm">
+        <div className="flex border-gray-200 gap-2 sm:flex-row flex-col">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`px-4 py-2 font-medium transition-colors w-full ${
+            className={`px-4 py-1 pt-[6px] font-medium transition-colors w-full ${
               activeTab === 'overview'
                 ? 'border border-gray-200 bg-white'
                 : 'mainColourText2 hover:underline'
@@ -124,7 +138,7 @@ export default function ModuleLayout({
           {weekByWeekContent && (
             <button
               onClick={() => setActiveTab('weekbyweek')}
-              className={`px-4 py-2 font-medium transition-colors w-full ${
+              className={`px-4 py-1 rounded-sm font-medium transition-colors w-full ${
                 activeTab === 'weekbyweek'
                   ? 'border border-gray-200 bg-white'
                   : 'mainColourText2 hover:underline'
@@ -135,7 +149,7 @@ export default function ModuleLayout({
           )}
           <button
             onClick={() => setActiveTab('progress')}
-            className={`px-4 py-2 font-medium transition-colors w-full ${
+            className={`px-4 py-1 rounded-sm pt-[6px] font-medium transition-colors w-full ${
               activeTab === 'progress'
                 ? 'border border-gray-200 bg-white'
                 : 'mainColourText2 hover:underline'
@@ -152,7 +166,7 @@ export default function ModuleLayout({
           <div>
             {/* Objectives Section */}
             {overviewInfo.objectives && overviewInfo.objectives.length > 0 && (
-              <div className="mb-8">
+              <section>
                 <h2 className="text-xl font-semibold mb-3">
                   Module Objectives
                 </h2>
@@ -164,13 +178,15 @@ export default function ModuleLayout({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </section>
             )}
+
+            <hr className="my-8" />
 
             {/* Learning Resources Section */}
             {overviewInfo.learningResources &&
               overviewInfo.learningResources.length > 0 && (
-                <div className="mb-8">
+                <section>
                   <h2 className="text-xl font-semibold mb-3">
                     Learning Resources (YouTube Search Strategy)
                   </h2>
@@ -182,8 +198,40 @@ export default function ModuleLayout({
                       </li>
                     ))}
                   </ul>
-                </div>
+                </section>
               )}
+
+            <hr className="my-8" />
+
+            {overviewInfo.assignmentDetails && (
+              <section>
+                <div className="mb-8">
+                  <h2 className="text-xl font-semibold mb-3">
+                    {overviewInfo.assignmentDetails.weekAAssignmentTitle}
+                  </h2>
+                  {overviewInfo.assignmentDetails.weekAAssignmentContent}
+                </div>
+                <div>
+                  <h2 className="text-xl font-semibold mb-3">
+                    {overviewInfo.assignmentDetails.weekBAssignmentTitle}
+                  </h2>
+                  {overviewInfo.assignmentDetails.weekBAssignmentContent}
+                </div>
+              </section>
+            )}
+
+            <hr className="my-8" />
+
+            {overviewInfo.successCriteria && (
+              <section>
+                <h2 className="text-xl font-semibold mb-3">
+                  Success Criteria
+                </h2>
+                <div>
+                  {overviewInfo.successCriteria.content}
+                </div>
+              </section>
+            )}
 
             {/* Custom Overview Content */}
             {overviewContent}
