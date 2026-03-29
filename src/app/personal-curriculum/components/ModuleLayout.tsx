@@ -59,7 +59,7 @@ export default function ModuleLayout({
       <div className="mb-6">
         <Link
           href="/personal-curriculum"
-          className="text-purple-600 hover:underline inline-flex items-center gap-1"
+          className="text-blue-600 hover:underline inline-flex items-center gap-1"
         >
           ← Back to Curriculum
         </Link>

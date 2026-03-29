@@ -116,6 +116,15 @@ export default function Sidebar({
               Posts
             </Link>
           </li>
+          <li>
+            <Link
+              href="/about"
+              className="block py-1 hover:text-gray-600 hover:underline"
+              onClick={onClose}
+            >
+              About
+            </Link>
+          </li>
         </ul>
 
         {/* Years Accordion */}

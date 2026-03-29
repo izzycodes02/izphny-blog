@@ -8,7 +8,7 @@ export default function Home() {
   const latestPosts = posts.slice(0, 2);
 
   return (
-    <div className="w-full">
+    <div className="w-full p-3">
       <section className="flex w-full text-center items-center flex-col my-20 mainColourText">
         <p>i live</p>
         <p>pray</p>
