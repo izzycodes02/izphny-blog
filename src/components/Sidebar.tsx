@@ -307,7 +307,7 @@ export default function Sidebar({
                 />
               </svg>
             </button>
-            <div className='p-14 pt-6'>{sidebarContent}</div>
+            <div className='p-20 pt-6'>{sidebarContent}</div>
           </aside>
         </div>
       )}
