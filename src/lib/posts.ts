@@ -5,7 +5,7 @@ import { BlogPost, PostsByYear, TagCount } from '../types/blog';
 
 const postsDirectory = path.join(process.cwd(), 'src', 'posts');
 
-export  function getAllPosts(): BlogPost[] {
+export function getAllPosts(): BlogPost[] {
   // Recursively get all MDX files
   const getMDXFiles = (dir: string): string[] => {
     const files = fs.readdirSync(dir, { withFileTypes: true });
@@ -39,14 +39,29 @@ export  function getAllPosts(): BlogPost[] {
     const fileContent = fs.readFileSync(filePath, 'utf8');
     const { data, content } = matter(fileContent);
 
+    // Get datetime from frontmatter, fallback to old date field if needed
+    let datetime = data.datetime;
+    if (!datetime && data.date) {
+      // If datetime doesn't exist but date does, use date
+      datetime = data.time ? `${data.date}T${data.time}` : data.date;
+    }
+    if (!datetime) {
+      // Last resort fallback - use file modification time or current date
+      const stats = fs.statSync(filePath);
+      datetime = stats.mtime.toISOString();
+      console.warn(
+        `No date/datetime found for post: ${slug}, using file modification time`,
+      );
+    }
+
     return {
       slug,
       title: data.title,
-      date: data.date,
+      datetime, // Add the datetime field
       tags: data.tags || [],
       excerpt: data.excerpt || '',
       image: data.image,
-      moodImage: data.moodImage, // Add this
+      moodImage: data.moodImage,
       moodDescription: data.moodDescription,
       content,
       year,
@@ -54,10 +69,12 @@ export  function getAllPosts(): BlogPost[] {
     };
   });
 
-  // Sort posts by date (newest first)
-  return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  // Sort posts by datetime (newest first)
+  return posts.sort((a, b) => {
+    const dateA = new Date(a.datetime);
+    const dateB = new Date(b.datetime);
+    return dateB.getTime() - dateA.getTime();
+  });
 }
 
 export function getPostsByYear(): PostsByYear {
@@ -66,7 +83,8 @@ export function getPostsByYear(): PostsByYear {
 
   posts.forEach((post) => {
     const year = post.year;
-    const month = new Date(post.date).toLocaleString('default', {
+    // Parse the month from datetime instead of date
+    const month = new Date(post.datetime).toLocaleString('default', {
       month: 'long',
     });
 
@@ -96,14 +114,27 @@ export function getPostBySlug(
     const fileContent = fs.readFileSync(filePath, 'utf8');
     const { data, content } = matter(fileContent);
 
+    // Get datetime from frontmatter, fallback to old date field if needed
+    let datetime = data.datetime;
+    if (!datetime && data.date) {
+      datetime = data.time ? `${data.date}T${data.time}` : data.date;
+    }
+    if (!datetime) {
+      const stats = fs.statSync(filePath);
+      datetime = stats.mtime.toISOString();
+      console.warn(
+        `No date/datetime found for post: ${slug}, using file modification time`,
+      );
+    }
+
     return {
       slug,
       title: data.title,
-      date: data.date,
+      datetime, // Add the datetime field
       tags: data.tags || [],
       excerpt: data.excerpt || '',
       image: data.image,
-      moodImage: data.moodImage, // Add this
+      moodImage: data.moodImage,
       moodDescription: data.moodDescription,
       content,
       year,

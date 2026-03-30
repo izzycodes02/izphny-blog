@@ -1,7 +1,7 @@
 export interface BlogPost {
   slug: string;
   title: string;
-  date: string;
+  datetime: string;
   moodImage?: string;
   moodDescription?: string;
   tags: string[];

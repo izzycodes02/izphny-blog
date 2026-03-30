@@ -6,10 +6,6 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { mdxComponents } from '@/components/mdx-components';
 
-
-
-
-
 interface PostPageProps {
   params: {
     year: string;
@@ -19,13 +15,14 @@ interface PostPageProps {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-
   // Await the params Promise
   const { year, month, slug } = await params;
 
   const post = getPostBySlug(year, month, slug);
   if (!post) notFound();
 
+  // Parse the datetime string to a Date object
+  const postDate = new Date(post.datetime);
 
   return (
     <div className="w-full p-3">
@@ -60,8 +57,8 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           )}
 
-          <time dateTime={post.date}>
-            {format(new Date(post.date), 'd / MMM / yyyy')}
+          <time dateTime={post.datetime}>
+            {format(postDate, 'd / MMM / yyyy')}
           </time>
         </div>
 
@@ -173,7 +170,7 @@ export async function generateMetadata({ params }: PostPageProps) {
       title: post.title,
       description: post.excerpt,
       type: 'article',
-      publishedTime: post.date,
+      publishedTime: post.datetime,
       tags: post.tags,
       images: post.image ? [post.image] : [],
     },

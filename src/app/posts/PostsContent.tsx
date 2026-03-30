@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { fetchPostsByYear, fetchAllTags } from '@/actions/posts';
-import type { PostsByYear, TagCount } from '@/types/blog';
+import type { BlogPost, PostsByYear, TagCount } from '@/types/blog';
 import Image from 'next/image';
 
 export default function PostsContent() {
@@ -30,6 +30,38 @@ export default function PostsContent() {
   const [selectedMonth, setSelectedMonth] = useState(monthFilter);
   const [selectedTag, setSelectedTag] = useState(tagFilter);
 
+  // Helper function to safely get datetime from post (backward compatible)
+  const getPostDateTime = (post: BlogPost): string => {
+    // If post has datetime field, use it
+    if (post.datetime) {
+      return post.datetime;
+    }
+    // // Fallback for old posts with separate date and time
+    // if (post.date) {
+    //   return post.time ? `${post.date}T${post.time}` : post.date;
+    // }
+    // Last resort fallback
+    return new Date().toISOString();
+  };
+
+  // Helper function to safely parse date
+  const parsePostDate = (post: BlogPost): Date => {
+    try {
+      const dateTimeStr = getPostDateTime(post);
+      console.log('Parsing date for post:', post.slug, 'using datetime string:', dateTimeStr);
+      const date = new Date(dateTimeStr);
+      console.log('Parsed date for post:', post.slug, date);
+      if (isNaN(date.getTime())) {
+        console.warn('Invalid date for post:', post.slug, dateTimeStr);
+        return new Date(); // fallback to current date
+      }
+      return date;
+    } catch (error) {
+      console.error('Error parsing date for post:', post.slug, error);
+      return new Date(); // fallback to current date
+    }
+  };
+
   // Fetch all data on the client
   useEffect(() => {
     const loadData = async () => {
@@ -38,13 +70,30 @@ export default function PostsContent() {
           fetchPostsByYear(),
           fetchAllTags(),
         ]);
-        setPostsByYear(postsData);
+
+        // Sort posts within each month by datetime (newest first)
+        const sortedPostsData: PostsByYear = {};
+        Object.keys(postsData).forEach((year) => {
+          sortedPostsData[year] = {};
+          Object.keys(postsData[year]).forEach((month) => {
+            // Sort posts by datetime descending with safe parsing
+            sortedPostsData[year][month] = [...postsData[year][month]].sort(
+              (a, b) => {
+                const dateA = parsePostDate(a);
+                const dateB = parsePostDate(b);
+                return dateB.getTime() - dateA.getTime();
+              },
+            );
+          });
+        });
+
+        setPostsByYear(sortedPostsData);
         setAllTags(tagsData);
 
         // Initialize all months as open
         const initialOpenMonths = new Set<string>();
-        Object.keys(postsData).forEach((year) => {
-          Object.keys(postsData[year]).forEach((month) => {
+        Object.keys(sortedPostsData).forEach((year) => {
+          Object.keys(sortedPostsData[year]).forEach((month) => {
             initialOpenMonths.add(`${year}-${month}`);
           });
         });
@@ -133,6 +182,7 @@ export default function PostsContent() {
           if (!filtered[year]) {
             filtered[year] = {};
           }
+          // Keep posts sorted when filtering
           filtered[year][month] = filteredPosts;
         }
       });
@@ -161,6 +211,24 @@ export default function PostsContent() {
     setSelectedMonth('');
     setSelectedTag('');
     router.push('/posts');
+  };
+
+  // Helper function to check if multiple posts on same day
+  const hasMultiplePostsOnSameDay = (
+    posts: BlogPost[],
+    currentPost: BlogPost,
+  ) => {
+    try {
+      const currentDate = format(parsePostDate(currentPost), 'yyyy-MM-dd');
+      const sameDayPosts = posts.filter((post) => {
+        const postDate = parsePostDate(post);
+        return format(postDate, 'yyyy-MM-dd') === currentDate;
+      });
+      return sameDayPosts.length > 1;
+    } catch (error) {
+      console.error('Error in hasMultiplePostsOnSameDay:', error);
+      return false;
+    }
   };
 
   return (
@@ -359,47 +427,55 @@ export default function PostsContent() {
                     {/* Posts List - Conditionally Rendered */}
                     {isOpen && (
                       <ul className="space-y-3 pl-2">
-                        {posts.map((post) => (
-                          <li key={post.slug}>
-                            <Link
-                              href={`/${post.year}/${post.month}/${post.slug}`}
-                              className="border-t border-b border-white hover:border-gray-200 dark:hover:border-gray-700 py-2 px-1 -mx-3 flex justify-between items-center group MyPointerCursor"
-                            >
-                              <div className="flex items-center gap-2 flex-1 MyPointerCursor">
-                                {/* post image in a square box */}
-                                {post.image && (
-                                  <div className="w-12 h-12 bg-gray-200 rounded overflow-hidden flex-shrink-0">
-                                    <Image
-                                      width={48}
-                                      height={48}
-                                      src={post.image}
-                                      alt={post.title}
-                                      className="w-full h-full object-cover MyPointerCursor"
-                                    />
-                                  </div>
-                                )}
+                        {posts.map((post, index, array) => {
+                          const postDate = parsePostDate(post);
+                          const hasMultipleSameDay = hasMultiplePostsOnSameDay(
+                            array,
+                            post,
+                          );
 
-                                <div className="flex flex-col">
-                                  {/* title */}
-                                  <span className="font-semibold group-hover:underline group-hover:mainColourText2 MyPointerCursor">
-                                    {post.title}
-                                  </span>
-
-                                  {/* excerpt */}
-                                  {post.excerpt && (
-                                    <p className=" text-gray-600 dark:text-gray-400 mt-1 line-clamp-1 MyPointerCursor">
-                                      {post.excerpt}
-                                    </p>
+                          return (
+                            <li key={post.slug}>
+                              <Link
+                                href={`/${post.year}/${post.month}/${post.slug}`}
+                                className="border-t border-b border-white hover:border-gray-200 dark:hover:border-gray-700 py-2 px-1 -mx-3 flex justify-between items-center group MyPointerCursor"
+                              >
+                                <div className="flex items-center gap-2 flex-1 MyPointerCursor">
+                                  {/* post image in a square box */}
+                                  {post.image && (
+                                    <div className="w-12 h-12 bg-gray-200 rounded overflow-hidden flex-shrink-0">
+                                      <Image
+                                        width={48}
+                                        height={48}
+                                        src={post.image}
+                                        alt={post.title}
+                                        className="w-full h-full object-cover MyPointerCursor"
+                                      />
+                                    </div>
                                   )}
-                                </div>
-                              </div>
 
-                              <time className=" text-gray-500 dark:text-gray-400">
-                                {format(new Date(post.date), 'MMM d')}
-                              </time>
-                            </Link>
-                          </li>
-                        ))}
+                                  <div className="flex flex-col">
+                                    {/* title */}
+                                    <span className="font-semibold group-hover:underline group-hover:mainColourText2 MyPointerCursor">
+                                      {post.title}
+                                    </span>
+
+                                    {/* excerpt */}
+                                    {post.excerpt && (
+                                      <p className=" text-gray-600 dark:text-gray-400 mt-1 line-clamp-1 MyPointerCursor">
+                                        {post.excerpt}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <time className="text-gray-500 dark:text-gray-400 text-sm">
+                                  {format(postDate, 'd MMM')}
+                                </time>
+                              </Link>
+                            </li>
+                          );
+                        })}
                       </ul>
                     )}
                   </div>

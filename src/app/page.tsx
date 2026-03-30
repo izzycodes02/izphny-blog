@@ -28,11 +28,15 @@ export default function Home() {
 
         {/* I want it in 2 columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {latestPosts.map((post) => (
-            <article
-              key={`${post.year}/${post.month}/${post.slug}`}
-              className="border border-gray-200 p-2 dark:border-gray-800 flex flex-col justify-between h-full"
-            >
+          {latestPosts.map((post) => {
+            // Parse the datetime string to a Date object inside the map
+            const postDate = new Date(post.datetime);
+            
+            return (
+              <article
+                key={`${post.year}/${post.month}/${post.slug}`}
+                className="border border-gray-200 p-2 dark:border-gray-800 flex flex-col justify-between h-full"
+              >
               {/* Post title and excerpt - clickable to full post */}
 
               <Link
@@ -42,7 +46,7 @@ export default function Home() {
                 <div className="p-1 px-2 pb-[2px] mb-2 inset-border-shadow flex items-center text-gray-600 border justify-between font-thin  MyPointerCursor">
                   <span> ✷</span>
                   <span className="text-outline-white">
-                    {format(new Date(post.date), 'dd / MMM / yyyy')}
+                    {format(postDate, 'dd / MMM / yyyy')}
                   </span>
                 </div>
 
@@ -73,9 +77,10 @@ export default function Home() {
                     </Link>
                   ))}
                 </div>
-              )}
+            )}
             </article>
-          ))}
+          );
+        })}
         </div>
       </section>
 
