@@ -103,6 +103,25 @@ export const mdxComponents: MDXComponents = {
     );
   },
 
+  MyVideo: ({src, caption}: {src: string, caption?: string}) => {
+    return (
+      <figure>
+        <iframe
+          src={src}
+          title={caption || 'Embedded video'}
+          allowFullScreen
+          className="w-full h-auto aspect-video"
+        ></iframe>
+
+        {caption && (
+          <figcaption className="text-center text-[10px] italic text-gray-500 mt-2">
+            {caption}
+          </figcaption>
+        )}
+      </figure>
+    );
+  },
+
   Emoji: ({ type }: EmojiProps) => {
     const emojiMap: Record<string, string> = {
       smile: '/emoji/smile.webp',
