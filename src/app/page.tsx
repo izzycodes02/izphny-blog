@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getAllPosts } from '../lib/posts';
 import { format } from 'date-fns';
+import TypingAnimation from '@/components/TypingAnimation';
 
 export default function Home() {
   const posts = getAllPosts();
@@ -9,12 +10,8 @@ export default function Home() {
 
   return (
     <div className="w-full p-3">
-      <section className="flex w-full text-center items-center flex-col my-20 mainColourText">
-        <p>i live</p>
-        <p>pray</p>
-        <p>play</p>
-        <p>& work</p>
-      </section>
+
+      <TypingAnimation />
 
       <hr className="mb-8" />
 
@@ -34,7 +31,7 @@ export default function Home() {
           {latestPosts.map((post) => (
             <article
               key={`${post.year}/${post.month}/${post.slug}`}
-              className="border border-gray-200 p-2 dark:border-gray-800"
+              className="border border-gray-200 p-2 dark:border-gray-800 flex flex-col justify-between h-full"
             >
               {/* Post title and excerpt - clickable to full post */}
 
@@ -42,19 +39,19 @@ export default function Home() {
                 href={`/${post.year}/${post.month}/${post.slug}`}
                 className="block group"
               >
-                <div className="p-1 px-2 pb-[2px] mb-2 myGreyGradient flex items-center text-gray-500 border justify-between font-thin group-hover:myMainColourGradient transition-colors duration-200">
+                <div className="p-1 px-2 pb-[2px] mb-2 inset-border-shadow flex items-center text-gray-600 border justify-between font-thin  MyPointerCursor">
                   <span> ✷</span>
-                  {format(new Date(post.date), 'dd / MMM / yyyy')}
+                  <span className="text-outline-white">
+                    {format(new Date(post.date), 'dd / MMM / yyyy')}
+                  </span>
                 </div>
 
-                <h3 className="text-lg font-semibold group-hover:mainColourText group-hover:underline mb-2">
+                <h3 className="text-lg font-semibold group-hover:mainColourText group-hover:underline mb-2 MyPointerCursor">
                   {post.title}
                 </h3>
 
-                <time className=" text-gray-500 dark:text-gray-400 block mb-2"></time>
-
                 {post.excerpt && (
-                  <p className="text-gray-600 dark:text-gray-400 mb-3">
+                  <p className="text-gray-600 dark:text-gray-400 mb-3 MyPointerCursor">
                     {post.excerpt}
                   </p>
                 )}
@@ -63,11 +60,14 @@ export default function Home() {
               {/* Tags section - separate from the main post link */}
               {post.tags && post.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
+                  {post.tags.map((tag, i) => (
                     <Link
                       key={tag}
                       href={`/posts?tag=${encodeURIComponent(tag)}`}
-                      className=" bg-[#f0f0f0] text-[10px]  px-2 py-1 rounded-sm bgfaint hover:mainColourText2  hover:underline  transition-colors duration-200"
+                      className={`bg-[#f0f0f0] text-[10px] px-2 py-1 rounded-sm bgfaint hover:mainColourText2 hover:underline transition-colors duration-200
+      ${i >= 3 ? 'hidden' : ''}
+      ${i >= 2 ? 'md:hidden' : ''}
+    `}
                     >
                       #{tag}
                     </Link>

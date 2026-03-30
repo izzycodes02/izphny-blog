@@ -50,9 +50,9 @@ export default function Sidebar({
   const sidebarContent = (
     <>
       {/* Blog Logo and Title */}
-      <div className="flex items-center mb-2 flex-col border border-gray-200 p-1">
+      <div className="flex items-center mb-4 flex-col border border-gray-200 p-1">
         <Image
-          src="/profile.jpg"
+          src="https://i.pinimg.com/1200x/bf/09/a4/bf09a4defb566559f580403a74d957a7.jpg"
           alt="Blog Logo"
           width={100}
           height={100}
@@ -60,7 +60,7 @@ export default function Sidebar({
         />
         <Link
           href="/"
-          className="text-lg mt-1 font-bold hover:text-gray-600 dark:hover:text-gray-300 font-serif"
+          className="text-lg mt-1 font-medium hover:text-gray-600 dark:hover:text-gray-300 font-serif"
           onClick={onClose}
         >
           @izphny
@@ -290,7 +290,7 @@ export default function Sidebar({
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-1 mainColourText2  bg-white border border-gray-300 hover:text-gray-900 rounded-md"
+              className="fixed top-4 right-4 p-1 mainColourText2  bg-white border border-gray-300 hover:text-gray-900 rounded-md"
               aria-label="Close menu"
             >
               <svg

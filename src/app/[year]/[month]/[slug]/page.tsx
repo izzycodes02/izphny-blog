@@ -43,9 +43,9 @@ export default async function PostPage({ params }: PostPageProps) {
       <header>
         {/* <h1 className="text-4xl font-bold mb-4">{post.title}</h1> */}
 
-        <div className="flex items-center gap-4 text-gray-600  mb-2 justify-between w-full">
+        <div className="flex items-center gap-4 text-gray-600 justify-between w-full mb-6 md:mb-2">
           {post.moodImage && post.moodDescription && (
-            <div className="flex  items-center gap-1 " title="my mood">
+            <div className="flex  items-center gap-1  " title="my mood">
               <p>Mood:</p>
               <p className=" text-gray-500 dark:text-gray-400 text-center">
                 {post.moodDescription}

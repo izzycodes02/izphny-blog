@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import { fetchPostsByYear, fetchAllTags } from '@/actions/posts';
 import type { PostsByYear, TagCount } from '@/types/blog';
+import Image from 'next/image';
 
 export default function PostsContent() {
   const router = useRouter();
@@ -162,37 +163,26 @@ export default function PostsContent() {
     router.push('/posts');
   };
 
-  // Loading state
-  if (loading) {
-    return (
-      <div className="w-full p-3 flex justify-center items-center min-h-[400px]">
-        <div className="text-gray-500">Loading posts...</div>
-      </div>
-    );
-  }
-
-  // Error state
-  if (!postsByYear) {
-    return (
-      <div className="w-full p-3 flex justify-center items-center min-h-[400px]">
-        <div className="text-red-500">Failed to load posts</div>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full p-3">
       <h1 className="text-3xl font-bold mb-6 font-serif">All Posts</h1>
 
-      {/* Filters Section - keep as is */}
-      <div className="mb-8 p-4 bg-gray-50 dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-800">
-        <div className="flex items-end gap-2">
+      {loading ? (
+        <div className="w-full p-3 flex justify-center items-center">
+          <div className="text-gray-500">Loading posts...</div>
+        </div>
+      ) : !postsByYear ? (
+        <div className="w-full p-3 flex justify-center items-center">
+          <div className="text-red-500">Failed to load posts</div>
+        </div>
+      ) : null}
+
+      {/* Filters Section*/}
+      <div className="mb-8 p-4 bg-[#e1d0c4] rounded border-brown">
+        <div className="flex items-end gap-2 flex-col md:flex-row">
           {/* Year Filter */}
-          <div className="flex-1">
-            <label
-              htmlFor="year"
-              className="block font-semibold text-gray-700 dark:text-gray-300"
-            >
+          <div className="flex-1 w-full">
+            <label htmlFor="year" className="block font-semibold">
               Year
             </label>
             <select
@@ -202,16 +192,17 @@ export default function PostsContent() {
                 setSelectedYear(e.target.value);
                 setSelectedMonth('');
               }}
-              className="w-full px-1 py-1 border border-gray-300 rounded bg-white text-gray-900"
+              className="w-full px-1 py-1 border border-[var(--main-colour)] rounded bg-white text-gray-900"
             >
               <option value="">All Years</option>
               {availableYears.map((year) => (
                 <option key={year} value={year}>
                   {year} (
-                  {Object.values(postsByYear[year]).reduce(
-                    (acc, posts) => acc + posts.length,
-                    0,
-                  )}
+                  {postsByYear &&
+                    Object.values(postsByYear[year]).reduce(
+                      (acc, posts) => acc + posts.length,
+                      0,
+                    )}
                   )
                 </option>
               ))}
@@ -219,7 +210,7 @@ export default function PostsContent() {
           </div>
 
           {/* Month Filter */}
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <label
               htmlFor="month"
               className="block font-semibold text-gray-700 dark:text-gray-300"
@@ -231,19 +222,19 @@ export default function PostsContent() {
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
               disabled={!selectedYear}
-              className="w-full px-1 py-1 border border-gray-300 rounded bg-white text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-1 py-1 border border-[var(--main-colour)] rounded bg-white text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <option value="">All Months</option>
               {availableMonths.map((month) => (
                 <option key={month} value={month}>
-                  {month} ({postsByYear[selectedYear]?.[month]?.length || 0})
+                  {month} ({postsByYear?.[selectedYear]?.[month]?.length || 0})
                 </option>
               ))}
             </select>
           </div>
 
           {/* Tags Filter */}
-          <div className="flex-1">
+          <div className="flex-1 w-full">
             <label
               htmlFor="tags"
               className="block font-semibold text-gray-700 dark:text-gray-300"
@@ -254,7 +245,7 @@ export default function PostsContent() {
               id="tags"
               value={selectedTag}
               onChange={(e) => setSelectedTag(e.target.value)}
-              className="w-full px-1 py-1 border border-gray-300 rounded bg-white text-gray-900"
+              className="w-full px-1 py-1 border border-[var(--main-colour)] rounded bg-white text-gray-900"
             >
               <option value="">All Tags</option>
               {allTags.map(({ tag, count }) => (
@@ -266,17 +257,17 @@ export default function PostsContent() {
           </div>
         </div>
 
-        <div className="flex gap-2 mt-3 w-full justify-center">
+        <div className="flex gap-2 mt-3 w-full justify-center ">
           <button
             onClick={applyFilters}
-            className="px-3 py-1 bg-gray-950 text-white rounded hover:bg-gray-800 transition-colors"
+            className="px-3 py-1 bg-[var(--main-colour4)] text-white rounded hover:bg-[var(--main-colour2)] transition-colors duration-200"
           >
             apply filters
           </button>
           {(yearFilter || monthFilter || tagFilter) && (
             <button
               onClick={clearFilters}
-              className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded italic hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+              className="px-3 py-1 bg-white text-gray-700 dark:text-gray-300 rounded italic hover:bg-gray-100 transition-colors border border-[var(--main-colour)]"
             >
               Clear
             </button>
@@ -285,7 +276,7 @@ export default function PostsContent() {
 
         {/* Active Filters Display */}
         {(yearFilter || monthFilter || tagFilter) && (
-          <div className="mt-3 text-gray-600 dark:text-gray-400 text-center">
+          <div className="mt-3 text-gray-700 text-center">
             Active filters:{' '}
             {yearFilter && (
               <span className="inline-flex items-center mr-2">
@@ -302,7 +293,7 @@ export default function PostsContent() {
                 Tag: #{tagFilter}
               </span>
             )}
-            <span className="ml-1 text-purple-600 ">
+            <span className="ml-1 mainColourText2 ">
               (
               {Object.values(filteredPostsByYear).reduce(
                 (acc, months) =>
@@ -372,15 +363,31 @@ export default function PostsContent() {
                           <li key={post.slug}>
                             <Link
                               href={`/${post.year}/${post.month}/${post.slug}`}
-                              className="border border-white hover:border-gray-200 dark:hover:border-gray-700 p-2 -mx-2 rounded flex justify-between items-center group"
+                              className="border-t border-b border-white hover:border-gray-200 dark:hover:border-gray-700 py-2 px-1 -mx-3 flex justify-between items-center group MyPointerCursor"
                             >
-                              <div className="flex items-center gap-2 flex-1">
+                              <div className="flex items-center gap-2 flex-1 MyPointerCursor">
+                                {/* post image in a square box */}
+                                {post.image && (
+                                  <div className="w-12 h-12 bg-gray-200 rounded overflow-hidden flex-shrink-0">
+                                    <Image
+                                      width={48}
+                                      height={48}
+                                      src={post.image}
+                                      alt={post.title}
+                                      className="w-full h-full object-cover MyPointerCursor"
+                                    />
+                                  </div>
+                                )}
+
                                 <div className="flex flex-col">
-                                  <span className="font-medium group-hover:underline">
+                                  {/* title */}
+                                  <span className="font-semibold group-hover:underline group-hover:mainColourText2 MyPointerCursor">
                                     {post.title}
                                   </span>
+
+                                  {/* excerpt */}
                                   {post.excerpt && (
-                                    <p className=" text-gray-600 dark:text-gray-400 mt-1 line-clamp-1">
+                                    <p className=" text-gray-600 dark:text-gray-400 mt-1 line-clamp-1 MyPointerCursor">
                                       {post.excerpt}
                                     </p>
                                   )}

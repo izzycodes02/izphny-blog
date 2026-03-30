@@ -17,7 +17,12 @@ const nextConfig: NextConfig = {
     mdxRs: true,
   },
   images: {
-    domains: ['64.media.tumblr.com', 'i.pinimg.com', 'files.catbox.moe'],
+    domains: [
+      '64.media.tumblr.com',
+      'i.pinimg.com',
+      'files.catbox.moe',
+      'decohoard.carrd.co',
+    ],
   },
 };
 

@@ -8,14 +8,53 @@
     --main-colour: #9c7c6b;
     --main-colour2: #723611;
     --main-colour3: #e4d2c8;
+    --main-colour4: #3a2417;
     --button-highlight: #FFFFFF;
-        --button-face: #e4d2c8;
-        --button-shadow: #808080;
-        --window-frame: #0a0a0a;
+    --button-face: #e4d2c8;
+    --button-shadow: #808080;
+    --window-frame: #0a0a0a;
     --border-raised-outer: inset -1px -1px var(--window-frame),
-            inset 1px 1px var(--button-highlight);
-        --border-raised-inner: inset -2px -2px var(--button-shadow),
-            inset 2px 2px var(--button-face);
+        inset 1px 1px var(--button-highlight);
+    --border-raised-inner: inset -2px -2px var(--button-shadow),
+        inset 2px 2px var(--button-face);
+}
+
+@layer utilities {
+    .text-outline-white {
+        text-shadow: 1px 1px #ffffff,
+            0px 1px #ffffff,
+            1px 0px #ffffff,
+            0px -1px #ffffff,
+            -1px 0px #ffffff,
+            -1px -1px #ffffff,
+            1px -1px #ffffff,
+            -1px 1px #ffffff;
+    }
+
+    .inset-border-shadow {
+        box-shadow: inset 0px 0px 0px 1.5px #ffffff,
+            inset 0px -11px 0px 0px #ebebeb;
+    }
+
+    .mainColourText {
+        color: var(--main-colour);
+    }
+
+    .mainColourText2 {
+        color: var(--main-colour2);
+    }
+
+    .border-chocolate {
+        border-width: 7px;
+            border-style: solid;
+            border-image: url("https://foollovers.com/mat/menu05/51a-none.gif") 9 fill round;
+    }
+
+    .border-brown {
+        border-width: 8px;
+            border-style: solid;
+            border-image: url("https://dl.dropbox.com/s/w5yteo6huqvmzx1/brown.png") 8 fill round;
+    }
 }
 
 @font-face {
@@ -36,7 +75,8 @@ button:hover {
     cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243490'), auto !important;
 }
 
-.MyPointerCursor, .MyPointerCursor:hover {
+.MyPointerCursor,
+.MyPointerCursor:hover {
     cursor: url('http://www.rw-designer.com/cursor-extern.php?id=243490'), auto !important;
 }
 
@@ -45,7 +85,8 @@ button:hover {
     a,
     button {
         @apply cursor-my-pointer;
-    } }
+    }
+}
 
 body {
     font-family: 'Phlatt-Grotesk', sans-serif;
@@ -137,5 +178,5 @@ body {
 
 .myGreyGradient {
     background: #f0f0f0;
-        background: linear-gradient(0deg, rgba(240, 240, 240, 1) 0%, rgba(222, 222, 222, 1) 26%, rgba(247, 247, 247, 1) 100%);
+    background: linear-gradient(0deg, rgba(240, 240, 240, 1) 0%, rgba(222, 222, 222, 1) 26%, rgba(247, 247, 247, 1) 100%);
 }

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { PostsByYear, TagCount } from '@/types/blog';
 import Sidebar from './Sidebar';
+import { IconMenu2Filled } from '@tabler/icons-react';
 
 interface MobileHeaderProps {
   postsByYear: PostsByYear;
@@ -15,39 +16,21 @@ export default function MobileHeader({ postsByYear, tags }: MobileHeaderProps) {
 
   return (
     <>
-      <header className="md:hidden sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-0 flex items-center justify-between">
+      <header className="md:hidden sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between">
         <button
           onClick={() => setIsMenuOpen(true)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-1 border border-gray-300 hover:bg-gray-100 rounded transition-colors MyPointerCursor"
           aria-label="Open menu"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
+          <IconMenu2Filled className="w-5 h-5 MyPointerCursor" />
         </button>
-        <Link href="/" className="text-xl font-bold">
-          izphny blog
+        <Link href="/" className="text-xl font-medium font-serif">
+          izphny ✷ blog
         </Link>
         <div className="w-10" /> {/* Spacer for alignment */}
       </header>
 
-      {isMenuOpen && (
-
-        <>
-        
-        </>
-       
-      )}
+      {isMenuOpen && <></>}
 
       <Sidebar
         postsByYear={postsByYear}
