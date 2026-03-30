@@ -413,8 +413,10 @@ export default function ModuleOnePage() {
           post.tags.includes('BLDN 101 Mod 1'),
         );
 
+        // Sort posts by datetime (newest first)
         const sortedPosts = filteredPosts.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+          (a, b) =>
+            new Date(b.datetime).getTime() - new Date(a.datetime).getTime(),
         );
 
         setModulePosts(sortedPosts.slice(0, 5));
@@ -503,30 +505,33 @@ export default function ModuleOnePage() {
           <div className="mb-2">
             {openPosts && (
               <ul className="space-y-3 pl-2">
-                {modulePosts.map((post) => (
-                  <li key={post.slug}>
-                    <Link
-                      href={`/${post.year}/${post.month}/${post.slug}`}
-                      className="border border-white hover:border-gray-200 dark:hover:border-gray-700 p-2 -mx-2 rounded flex justify-between items-center group"
-                    >
-                      <div className="flex items-center gap-2 flex-1">
-                        <div className="flex flex-col">
-                          <span className="font-medium group-hover:underline">
-                            {post.title}
-                          </span>
-                          {post.excerpt && (
-                            <p className="text-gray-600 dark:text-gray-400 mt-1 line-clamp-1">
-                              {post.excerpt}
-                            </p>
-                          )}
+                {modulePosts.map((post) => {
+                  const postDate = new Date(post.datetime);
+                  return (
+                    <li key={post.slug}>
+                      <Link
+                        href={`/${post.year}/${post.month}/${post.slug}`}
+                        className="border border-white hover:border-gray-200 dark:hover:border-gray-700 p-2 -mx-2 rounded flex justify-between items-center group"
+                      >
+                        <div className="flex items-center gap-2 flex-1">
+                          <div className="flex flex-col">
+                            <span className="font-medium group-hover:underline">
+                              {post.title}
+                            </span>
+                            {post.excerpt && (
+                              <p className="text-gray-600 dark:text-gray-400 mt-1 line-clamp-1">
+                                {post.excerpt}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                      <time className="text-gray-500 dark:text-gray-400">
-                        {format(new Date(post.date), 'MMM d')}
-                      </time>
-                    </Link>
-                  </li>
-                ))}
+                        <time className="text-gray-500 dark:text-gray-400">
+                          {format(postDate, 'MMM d')}
+                        </time>
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { MDXComponents } from 'mdx/types';
-import { IconExternalLink, IconMapPin, IconMovie, IconUser } from '@tabler/icons-react';
+import { IconBrandYoutube, IconExternalLink, IconMapPin, IconMovie, IconUser } from '@tabler/icons-react';
 
 interface MyLinkProps {
   src: string;
@@ -67,6 +67,20 @@ export const mdxComponents: MDXComponents = {
           >
             <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
               <IconUser className="w-[10px] h-[10px] MyPointerCursor" />
+              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
+            </span>
+          </a>
+        ) : type === 'youtube' ? (
+          <a
+            href={src}
+            target="_blank"
+            title="See about this person!"
+            rel="noopener noreferrer"
+            className={`inline-flex text-orange-400 hover:text-orange-600
+    hover:underline font-medium transition-colors duration-200 `}
+          >
+            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
+              <IconBrandYoutube className="w-[10px] h-[10px] MyPointerCursor" />
               <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
             </span>
           </a>
