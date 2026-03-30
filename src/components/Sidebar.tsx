@@ -290,11 +290,11 @@ export default function Sidebar({
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 text-gray-600 hover:text-gray-900"
+              className="absolute top-4 right-4 p-1 mainColourText2  bg-white border border-gray-300 hover:text-gray-900 rounded-md"
               aria-label="Close menu"
             >
               <svg
-                className="w-6 h-6"
+                className="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -307,7 +307,7 @@ export default function Sidebar({
                 />
               </svg>
             </button>
-            {sidebarContent}
+            <div className='p-14 pt-6'>{sidebarContent}</div>
           </aside>
         </div>
       )}
