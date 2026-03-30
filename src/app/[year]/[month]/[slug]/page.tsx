@@ -167,7 +167,7 @@ export async function generateMetadata({ params }: PostPageProps) {
   }
 
   return {
-    title: post.title,
+    title: `✷ post: ${post.title}`,
     description: post.excerpt,
     openGraph: {
       title: post.title,
