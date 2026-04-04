@@ -26,84 +26,82 @@ interface EmojiProps {
 export const mdxComponents: MDXComponents = {
   // Custom link component
   MyLink: ({ src, children, type }: MyLinkProps) => {
+    if (type === 'location') {
+      return (
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="See about this place!"
+          className="inline-flex text-red-400 hover:text-red-600 hover:underline font-medium transition-colors duration-200 items-center gap-[2px] MyPointerCursor"
+        >
+          <IconMapPin className="w-[10px] h-[10px] MyPointerCursor flex-shrink-0" />
+          <span className="pt-[1.5px] MyPointerCursor">{children}</span>
+        </a>
+      );
+    }
+
+    if (type === 'movie') {
+      return (
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="See about this movie!"
+          className="inline-flex text-blue-400 hover:text-blue-600 hover:underline font-medium transition-colors duration-200 items-center gap-[2px] MyPointerCursor"
+        >
+          <IconMovie className="w-[10px] h-[10px] MyPointerCursor flex-shrink-0" />
+          <span className="pt-[1.5px] MyPointerCursor">{children}</span>
+        </a>
+      );
+    }
+
+    if (type === 'person') {
+      return (
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="See about this person!"
+          className="inline-flex text-violet-400 hover:text-violet-600 hover:underline font-medium transition-colors duration-200 items-center gap-[2px] MyPointerCursor"
+        >
+          <IconUser className="w-[10px] h-[10px] MyPointerCursor flex-shrink-0" />
+          <span className="pt-[1.5px] MyPointerCursor">{children}</span>
+        </a>
+      );
+    }
+
+    if (type === 'youtube') {
+      return (
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Watch this on YouTube!"
+          className="inline-flex text-orange-400 hover:text-orange-600 hover:underline font-medium transition-colors duration-200 items-center gap-[2px] MyPointerCursor"
+        >
+          <IconBrandYoutube className="w-[10px] h-[10px] MyPointerCursor flex-shrink-0" />
+          <span className="pt-[1.5px] MyPointerCursor">{children}</span>
+        </a>
+      );
+    }
+
+    // Default link
     return (
-      <>
-        {type === 'location' ? (
-          <a
-            href={src}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="See about this place!"
-            className={`inline-flex text-red-400 hover:text-red-600
-      hover:underline font-medium transition-colors duration-200`}
-          >
-            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
-              <IconMapPin className="w-[10px] h-[10px] MyPointerCursor" />
-              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
-            </span>
-          </a>
-        ) : type === 'movie' ? (
-          <a
-            href={src}
-            target="_blank"
-            rel="noopener noreferrer"
-            title="See about this movie!"
-            className={`inline-flex text-blue-400 hover:text-blue-600
-    hover:underline font-medium transition-colors duration-200`}
-          >
-            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
-              <IconMovie className="w-[10px] h-[10px] MyPointerCursor" />
-              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
-            </span>
-          </a>
-        ) : type === 'person' ? (
-          <a
-            href={src}
-            target="_blank"
-            title="See about this person!"
-            rel="noopener noreferrer"
-            className={`inline-flex text-violet-400 hover:text-violet-600
-    hover:underline font-medium transition-colors duration-200 `}
-          >
-            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
-              <IconUser className="w-[10px] h-[10px] MyPointerCursor" />
-              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
-            </span>
-          </a>
-        ) : type === 'youtube' ? (
-          <a
-            href={src}
-            target="_blank"
-            title="See about this person!"
-            rel="noopener noreferrer"
-            className={`inline-flex text-orange-400 hover:text-orange-600
-    hover:underline font-medium transition-colors duration-200 `}
-          >
-            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
-              <IconBrandYoutube className="w-[10px] h-[10px] MyPointerCursor" />
-              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
-            </span>
-          </a>
-        ) : (
-          <a
-            href={src}
-            target="_blank"
-            title="See about this person!"
-            rel="noopener noreferrer"
-            className={`inline-flex text-yellow-700 hover:text-yellow-900
-  hover:underline font-medium transition-colors duration-200 `}
-          >
-            <span className="inline-flex items-center gap-[2px] font-medium MyPointerCursor">
-              <IconExternalLink className="w-[10px] h-[10px] MyPointerCursor" />
-              <span className="pt-[1.5px] MyPointerCursor"> {children}</span>
-            </span>
-          </a>
-        )}
-      </>
+      <a
+        href={src}
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Open link"
+        className="inline-flex text-yellow-700 hover:text-yellow-900 hover:underline font-medium transition-colors duration-200 items-center gap-[2px] MyPointerCursor"
+      >
+        <IconExternalLink className="w-[10px] h-[10px] MyPointerCursor flex-shrink-0" />
+        <span className=" MyPointerCursor">{children}</span>
+      </a>
     );
   },
 
-  MyVideo: ({src, caption}: {src: string, caption?: string}) => {
+  MyVideo: ({ src, caption }: { src: string; caption?: string }) => {
     return (
       <figure>
         <iframe
@@ -188,7 +186,7 @@ export const mdxComponents: MDXComponents = {
   },
 
   // Custom images grid component
-  'my images': ({ cols = 2, children }: MyImagesProps) => {
+  'MyImages': ({ cols = 2, children }: MyImagesProps) => {
     const gridCols = {
       1: 'grid-cols-1',
       2: 'grid-cols-1 md:grid-cols-2',

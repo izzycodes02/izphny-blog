@@ -17,11 +17,31 @@ const nextConfig: NextConfig = {
     mdxRs: true,
   },
   images: {
-    domains: [
-      '64.media.tumblr.com',
-      'i.pinimg.com',
-      'files.catbox.moe',
-      'decohoard.carrd.co',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '64.media.tumblr.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pinimg.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'files.catbox.moe',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'decohoard.carrd.co',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
